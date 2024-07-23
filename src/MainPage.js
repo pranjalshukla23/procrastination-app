@@ -54,10 +54,10 @@ function MainPage() {
       .then(() => {})
       .catch(() => {});
 
-    const tasksArr = [newTask, ...tasks];
-    setTasks(tasksArr);
-    setUncompletedTasks(uncompletedTasks + 1);
-    setShowNewTaskPopup(false);
+    // const tasksArr = [newTask, ...tasks];
+    // setTasks(tasksArr);
+    // setUncompletedTasks(uncompletedTasks + 1);
+    // setShowNewTaskPopup(false);
     setTaskName("");
     setLevel("Low");
   };
@@ -68,13 +68,13 @@ function MainPage() {
       .then(() => {})
       .catch(() => {});
 
-    const filteredTasks = tasks.filter((t) => t.id !== taskId);
-    if (filteredTasks) {
-      setTotalTasks(totalTasks - 1);
-      setCompletedTasks(completedTasks - 1);
-      setUncompletedTasks(uncompletedTasks - 1);
-    }
-    setTasks(filteredTasks);
+    // const filteredTasks = tasks.filter((t) => t.id !== taskId);
+    // if (filteredTasks) {
+    //   setTotalTasks(totalTasks - 1);
+    //   setCompletedTasks(completedTasks - 1);
+    //   setUncompletedTasks(uncompletedTasks - 1);
+    // }
+    // setTasks(filteredTasks);
   };
 
   const handleTaskCompletion = (taskId) => {
