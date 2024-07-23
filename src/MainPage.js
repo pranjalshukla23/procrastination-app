@@ -20,13 +20,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://procrastination-social-api.onrender.com";
-axios.defaults.withCredentials = true;
-axios.defaults.headers = {
-  "Content-Type": "application/json",
-  Accept: "application/json",
-};
-
 function MainPage() {
   const [tasks, setTasks] = useState([]);
   const [showNewTaskPopup, setShowNewTaskPopup] = useState(false);
@@ -124,7 +117,7 @@ function MainPage() {
           setLeaderboard([]);
           console.error("Error fetching data:", error);
         });
-    }, 500);
+    }, 1500);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -145,7 +138,7 @@ function MainPage() {
           setLeaderboard([]);
           console.error("Error fetching data:", error);
         });
-    }, 500);
+    }, 1500);
 
     return () => clearInterval(intervalId);
   }, []);
