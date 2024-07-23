@@ -41,7 +41,7 @@ function MainPage() {
       id: tasks.length + 1,
       taskName: taskName,
       priority: level,
-      status: "incomplete",
+      status: "todo",
     };
 
     axios
@@ -286,7 +286,9 @@ function MainPage() {
           )}
 
           <Box width="100%" justifyContent="space-between" alignItems="center" display="flex">
-            <Link to="/leaderboard">Go to leaderboard</Link>
+            <Link style={{ color: "white" }} to="/leaderboard">
+              Go to leaderboard
+            </Link>
             <Box color="white" fontWeight="bold" fontSize="30px" mb={4}>
               Tasks
             </Box>
@@ -304,7 +306,7 @@ function MainPage() {
             {tasks.map((task) => (
               <Box
                 sx={{
-                  cursor: task.status === "complete" ? "not-allowed" : "default",
+                  cursor: task.status === "done" ? "not-allowed" : "default",
                 }}
                 height={60}
                 p={1}
