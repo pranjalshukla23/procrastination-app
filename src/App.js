@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import MainPage from "./MainPage";
 import LoginPage from "./LoginPage";
 import RegistrationPage from "./RegistrationPage";
+import LeaderboardPage from "./LeaderboardPage";
 import { useEffect, useState } from "react";
 
 axios.defaults.baseURL = "https://procrastination-social-api.onrender.com";
@@ -35,6 +36,7 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/register" element={<RegistrationPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/leaderboard" element={<LeaderboardPage />} />
     </Routes>
   );
 }

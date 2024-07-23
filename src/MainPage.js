@@ -24,7 +24,7 @@ function MainPage() {
   const [tasks, setTasks] = useState([]);
   const [showNewTaskPopup, setShowNewTaskPopup] = useState(false);
   const [leaderboard, setLeaderboard] = useState([]);
-  const [level, setLevel] = useState("Low");
+  const [level, setLevel] = useState("low");
   const [taskName, setTaskName] = useState("");
   const [completedTasks, setCompletedTasks] = useState(0);
   const [uncompletedTasks, setUncompletedTasks] = useState(0);
@@ -48,7 +48,7 @@ function MainPage() {
       .post("/task", {
         title: taskName,
         description: "hello",
-        status: "incomplete",
+        status: "todo",
         priority: level,
       })
       .then(() => {})
@@ -272,9 +272,9 @@ function MainPage() {
                       value={level}
                       onChange={handlePriorityChange}
                     >
-                      <MenuItem value={"Low"}>Low</MenuItem>
-                      <MenuItem value={"Medium"}>Medium</MenuItem>
-                      <MenuItem value={"High"}>High</MenuItem>
+                      <MenuItem value={"low"}>Low</MenuItem>
+                      <MenuItem value={"medium"}>Medium</MenuItem>
+                      <MenuItem value={"high"}>High</MenuItem>
                     </Select>
                   </Box>
                 </Box>
@@ -353,6 +353,7 @@ function MainPage() {
                         {" "}
                         <Checkbox
                           color="success"
+                          checked={task.status === "complete"}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
                           onClick={() => handleTaskCompletion(task.id)}
                         />
