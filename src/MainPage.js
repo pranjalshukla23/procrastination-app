@@ -23,7 +23,6 @@ import axios from "axios";
 function MainPage() {
   const [tasks, setTasks] = useState([]);
   const [showNewTaskPopup, setShowNewTaskPopup] = useState(false);
-  const [leaderboard, setLeaderboard] = useState([]);
   const [level, setLevel] = useState("low");
   const [taskName, setTaskName] = useState("");
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -109,22 +108,6 @@ function MainPage() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       axios
-        .get("/leaderboard")
-        .then((response) => {
-          setLeaderboard(response.data);
-        })
-        .catch((error) => {
-          setLeaderboard([]);
-          console.error("Error fetching data:", error);
-        });
-    }, 1500);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      axios
         .get("/task/user")
         .then((response) => {
           const data = response.data.map((x) => ({
@@ -135,7 +118,6 @@ function MainPage() {
           setTasks(data);
         })
         .catch((error) => {
-          setLeaderboard([]);
           console.error("Error fetching data:", error);
         });
     }, 1500);

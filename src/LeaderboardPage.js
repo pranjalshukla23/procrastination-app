@@ -17,7 +17,7 @@ function LeaderboardPage() {
           setLeaderboard([]);
           console.error("Error fetching data:", error);
         });
-    }, 500);
+    }, 1500);
 
     return () => clearInterval(intervalId);
   }, []);
