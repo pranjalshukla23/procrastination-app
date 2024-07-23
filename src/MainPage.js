@@ -339,7 +339,7 @@ function MainPage() {
                           color="success"
                           checked={task.status === "done"}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
-                          onClick={() => handleTaskCompletion(task.id)}
+                          onClick={() => handleTaskCompletion(task._id)}
                         />
                       </Box>
                       <Box>{task.taskName}</Box>
@@ -353,7 +353,7 @@ function MainPage() {
                           width: "120px",
                         }}
                       />
-                      <DeleteIcon cursor="pointer" onClick={() => handleTaskDelete(task.id)} />
+                      <DeleteIcon cursor="pointer" onClick={() => handleTaskDelete(task._id)} />
                     </Box>
                   </Box>
                 </Box>
