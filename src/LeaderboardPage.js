@@ -65,7 +65,7 @@ function LeaderboardPage() {
               >
                 <Box>{user.username}</Box>
                 <Box>
-                  {user.completedTasks}/{user.totalTasks} completed
+                  {user.completed_tasks}/{user.total_tasks} completed
                 </Box>
               </Box>
             ))}
