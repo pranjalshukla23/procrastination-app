@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function MainPage() {
   const [tasks, setTasks] = useState([]);
@@ -79,19 +80,19 @@ function MainPage() {
   const handleTaskCompletion = (taskId) => {
     const filteredTasks = tasks.filter((t) => t.id === taskId);
     if (filteredTasks) {
-      if (filteredTasks[0].status === "complete") return;
+      if (filteredTasks[0].status === "done") return;
     }
     if (filteredTasks) {
       setCompletedTasks(completedTasks + 1);
     }
-    const updatedTasks = tasks.map((t) => (t.id === taskId ? { ...t, status: "complete" } : t));
+    const updatedTasks = tasks.map((t) => (t.id === taskId ? { ...t, status: "done" } : t));
 
     axios
       .put(`/task/${taskId}`, {
         title: filteredTasks[0].taskName,
         description: "hello",
         priority: filteredTasks[0].priority,
-        status: "complete",
+        status: "done",
       })
       .then(() => {})
       .catch(() => {});
@@ -285,6 +286,7 @@ function MainPage() {
           )}
 
           <Box width="100%" justifyContent="space-between" alignItems="center" display="flex">
+            <Link to="/leaderboard">Go to leaderboard</Link>
             <Box color="white" fontWeight="bold" fontSize="30px" mb={4}>
               Tasks
             </Box>
@@ -335,7 +337,7 @@ function MainPage() {
                         {" "}
                         <Checkbox
                           color="success"
-                          checked={task.status === "complete"}
+                          checked={task.status === "done"}
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
                           onClick={() => handleTaskCompletion(task.id)}
                         />
