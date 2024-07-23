@@ -78,14 +78,14 @@ function MainPage() {
   };
 
   const handleTaskCompletion = (taskId) => {
-    const filteredTasks = tasks.filter((t) => t.id === taskId);
+    const filteredTasks = tasks.filter((t) => t._id === taskId);
     if (filteredTasks) {
       if (filteredTasks[0].status === "done") return;
     }
     if (filteredTasks) {
       setCompletedTasks(completedTasks + 1);
     }
-    const updatedTasks = tasks.map((t) => (t.id === taskId ? { ...t, status: "done" } : t));
+    const updatedTasks = tasks.map((t) => (t._id === taskId ? { ...t, status: "done" } : t));
 
     axios
       .put(`/task/${taskId}`, {
@@ -121,7 +121,7 @@ function MainPage() {
         .catch((error) => {
           console.error("Error fetching data:", error);
         });
-    }, 1500);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, []);
