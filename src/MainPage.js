@@ -104,8 +104,6 @@ function MainPage() {
     return () => clearInterval(intervalId);
   }, []);
 
-  console.log(tasks);
-
   return (
     <div className="App">
       <Box

@@ -7,8 +7,8 @@ import RegistrationPage from "./RegistrationPage";
 import LeaderboardPage from "./LeaderboardPage";
 import { useEffect, useState } from "react";
 
-// axios.defaults.baseURL = "https://procrastination-social-api.onrender.com";
-axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.baseURL = "https://procrastination-social-api.onrender.com";
+// axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 axios.defaults.headers = {
   "Content-Type": "application/json",
