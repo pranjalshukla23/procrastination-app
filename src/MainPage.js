@@ -77,7 +77,7 @@ function MainPage() {
     const newCompletedTasks = tasks.filter((x) => x.status === "done").length;
     setCompletedTasks(newCompletedTasks);
     if (tasks.length !== 0) {
-      const productivityRate = (newCompletedTasks / tasks.length) * 100;
+      const productivityRate = ((newCompletedTasks / tasks.length) * 100).toFixed(2);
       setProductivityRate(productivityRate);
     } else {
       setProductivityRate(0);
@@ -120,6 +120,14 @@ function MainPage() {
         Procrastination Tracker
       </Box>
       <header className="App-header">
+        <Button
+          component={Link}
+          to="/leaderboard"
+          variant="contained"
+          style={{ backgroundColor: "#966363" }}
+        >
+          Go to leaderboard
+        </Button>
         <Box
           border="8px solid #16151B"
           height={500}
@@ -178,7 +186,7 @@ function MainPage() {
                 <CloseIcon
                   onClick={() => {
                     setTaskName("");
-                    setLevel("Low");
+                    setLevel("low");
                     setShowNewTaskPopup(false);
                   }}
                   sx={{
@@ -232,6 +240,7 @@ function MainPage() {
                       }}
                       value={level}
                       onChange={handlePriorityChange}
+                      renderValue={(value) => `${value.charAt(0).toUpperCase() + value.slice(1)}`}
                     >
                       <MenuItem value={"low"}>Low</MenuItem>
                       <MenuItem value={"medium"}>Medium</MenuItem>
@@ -252,7 +261,7 @@ function MainPage() {
                     sx={{ backgroundColor: "red" }}
                     onClick={() => {
                       setTaskName("");
-                      setLevel("Low");
+                      setLevel("low");
                       setShowNewTaskPopup(false);
                     }}
                   >
@@ -264,9 +273,6 @@ function MainPage() {
           )}
 
           <Box width="100%" justifyContent="space-between" alignItems="center" display="flex">
-            <Link style={{ display: "block", color: "white" }} to="/leaderboard">
-              Go to leaderboard
-            </Link>
             <Box color="white" fontWeight="bold" fontSize="30px" mb={4}>
               Tasks
             </Box>
@@ -293,7 +299,13 @@ function MainPage() {
 
 const TaskList = ({ tasks, handleTaskCompletion, handleTaskDelete }) => {
   return (
-    <Box display="flex" flexDirection="column" gap={4} width="100%">
+    <Box
+      style={{ marginBottom: "40px" }}
+      display="flex"
+      flexDirection="column"
+      gap={4}
+      width="100%"
+    >
       {tasks.map((task) => (
         <Box
           key={task._id}
@@ -334,7 +346,7 @@ const TaskList = ({ tasks, handleTaskCompletion, handleTaskDelete }) => {
               </Box>
               <Box width="20%" display="flex" justifyContent="center" gap={2}>
                 <Chip
-                  label={task.priority}
+                  label={task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
                   sx={{
                     backgroundColor: colorMap[task.priority],
                     color: "white",
