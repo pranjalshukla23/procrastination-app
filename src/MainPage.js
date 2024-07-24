@@ -33,7 +33,7 @@ function MainPage() {
     setLevel(event.target.value);
   };
 
-  const colorMap = { Low: "blue", Medium: "green", High: "red" };
+  const colorMap = { low: "blue", medium: "green", high: "red" };
   const handleTaskSubmit = (taskName, level) => {
     axios
       .post("/task", {
