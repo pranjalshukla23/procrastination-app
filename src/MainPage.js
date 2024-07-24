@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import {
   Box,
@@ -21,6 +20,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+const colorMap = { low: "blue", medium: "green", high: "red" };
+
 function MainPage() {
   const [tasks, setTasks] = useState([]);
   const [showNewTaskPopup, setShowNewTaskPopup] = useState(false);
@@ -33,7 +34,6 @@ function MainPage() {
     setLevel(event.target.value);
   };
 
-  const colorMap = { low: "blue", medium: "green", high: "red" };
   const handleTaskSubmit = (taskName, level) => {
     axios
       .post("/task", {
@@ -57,16 +57,16 @@ function MainPage() {
   };
 
   const handleTaskCompletion = (taskId) => {
-    const filteredTasks = tasks.filter((t) => t._id === taskId);
-    if (filteredTasks.length == 0) return;
+    const task = tasks.find((t) => t._id === taskId);
+    if (!task) return;
 
-    const newStatus = filteredTasks[0].status === "done" ? "todo" : "done";
+    const newStatus = task.status === "done" ? "todo" : "done";
 
     axios
       .put(`/task/${taskId}`, {
-        title: filteredTasks[0].taskName,
+        title: task.taskName,
         description: "hello",
-        priority: filteredTasks[0].priority,
+        priority: task.priority,
         status: newStatus,
       })
       .then(() => {})
@@ -74,7 +74,7 @@ function MainPage() {
   };
 
   useEffect(() => {
-    const newCompletedTasks = tasks.filter((x) => x.status === "done");
+    const newCompletedTasks = tasks.filter((x) => x.status === "done").length;
     setCompletedTasks(newCompletedTasks);
     if (tasks.length !== 0) {
       const productivityRate = (newCompletedTasks / tasks.length) * 100;
@@ -103,6 +103,8 @@ function MainPage() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  console.log(tasks);
 
   return (
     <div className="App">
@@ -280,70 +282,75 @@ function MainPage() {
             </Box>
           </Box>
 
-          <Box display="flex" flexDirection="column" gap={4} width="100%">
-            {tasks.map((task) => (
-              <Box
-                sx={{
-                  cursor: task.status === "done" ? "not-allowed" : "default",
-                }}
-                height={60}
-                p={1}
-                backgroundColor="#FFA533"
-                borderRadius="12px"
-              >
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="start"
-                  justifyContent="center"
-                  color="white"
-                  fontWeight="bold"
-                  pb={1}
-                >
-                  <Box
-                    width="100%"
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <Box
-                      width={"50%"}
-                      display="flex"
-                      justifyContent="flex-start"
-                      gap={4}
-                      alignItems="center"
-                    >
-                      <Box>
-                        {" "}
-                        <Checkbox
-                          color="success"
-                          checked={task.status === "done"}
-                          sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
-                          onClick={() => handleTaskCompletion(task._id)}
-                        />
-                      </Box>
-                      <Box>{task.taskName}</Box>
-                    </Box>
-                    <Box width="20%" display="flex" justifyContent="center" gap={2}>
-                      <Chip
-                        label={task.priority}
-                        sx={{
-                          backgroundColor: colorMap[task.priority],
-                          color: "white",
-                          width: "120px",
-                        }}
-                      />
-                      <DeleteIcon cursor="pointer" onClick={() => handleTaskDelete(task._id)} />
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-            ))}
-          </Box>
+          <TaskList
+            tasks={tasks}
+            handleTaskCompletion={handleTaskCompletion}
+            handleTaskDelete={handleTaskDelete}
+          />
         </Box>
       </header>
     </div>
   );
 }
+
+const TaskList = ({ tasks, handleTaskCompletion, handleTaskDelete }) => {
+  return (
+    <Box display="flex" flexDirection="column" gap={4} width="100%">
+      {tasks.map((task) => (
+        <Box
+          key={task._id}
+          sx={{
+            cursor: task.status === "done" ? "not-allowed" : "default",
+          }}
+          height={60}
+          p={1}
+          backgroundColor="#FFA533"
+          borderRadius="12px"
+        >
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="start"
+            justifyContent="center"
+            color="white"
+            fontWeight="bold"
+            pb={1}
+          >
+            <Box width="100%" display="flex" justifyContent="space-between" alignItems="center">
+              <Box
+                width={"50%"}
+                display="flex"
+                justifyContent="flex-start"
+                gap={4}
+                alignItems="center"
+              >
+                <Box>
+                  <Checkbox
+                    color="success"
+                    checked={task.status === "done"}
+                    sx={{ "& .MuiSvgIcon-root": { fontSize: 32 } }}
+                    onClick={() => handleTaskCompletion(task._id)}
+                  />
+                </Box>
+                <Box>{task.taskName}</Box>
+              </Box>
+              <Box width="20%" display="flex" justifyContent="center" gap={2}>
+                <Chip
+                  label={task.priority}
+                  sx={{
+                    backgroundColor: colorMap[task.priority],
+                    color: "white",
+                    width: "120px",
+                  }}
+                />
+                <DeleteIcon cursor="pointer" onClick={() => handleTaskDelete(task._id)} />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+};
 
 export default MainPage;

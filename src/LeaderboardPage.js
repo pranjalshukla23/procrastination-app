@@ -54,7 +54,7 @@ function LeaderboardPage() {
                 key={index}
                 height={60}
                 p={1}
-                backgroundColor="#ccc"
+                backgroundColor="#966363"
                 borderRadius="12px"
                 display="flex"
                 flexDirection="row"
