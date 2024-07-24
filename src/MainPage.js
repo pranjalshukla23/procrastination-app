@@ -27,9 +27,7 @@ function MainPage() {
   const [level, setLevel] = useState("low");
   const [taskName, setTaskName] = useState("");
   const [completedTasks, setCompletedTasks] = useState(0);
-  const [uncompletedTasks, setUncompletedTasks] = useState(0);
   const [productivityRate, setProductivityRate] = useState(0);
-  const [totalTasks, setTotalTasks] = useState(0);
 
   const handlePriorityChange = (event) => {
     setLevel(event.target.value);
@@ -37,13 +35,6 @@ function MainPage() {
 
   const colorMap = { Low: "blue", Medium: "green", High: "red" };
   const handleTaskSubmit = (taskName, level) => {
-    const newTask = {
-      id: tasks.length + 1,
-      taskName: taskName,
-      priority: level,
-      status: "todo",
-    };
-
     axios
       .post("/task", {
         title: taskName,
@@ -54,12 +45,8 @@ function MainPage() {
       .then(() => {})
       .catch(() => {});
 
-    // const tasksArr = [newTask, ...tasks];
-    // setTasks(tasksArr);
-    // setUncompletedTasks(uncompletedTasks + 1);
-    // setShowNewTaskPopup(false);
     setTaskName("");
-    setLevel("Low");
+    setLevel("low");
   };
 
   const handleTaskDelete = (taskId) => {
@@ -67,43 +54,34 @@ function MainPage() {
       .delete(`/task/${taskId}`)
       .then(() => {})
       .catch(() => {});
-
-    // const filteredTasks = tasks.filter((t) => t.id !== taskId);
-    // if (filteredTasks) {
-    //   setTotalTasks(totalTasks - 1);
-    //   setCompletedTasks(completedTasks - 1);
-    //   setUncompletedTasks(uncompletedTasks - 1);
-    // }
-    // setTasks(filteredTasks);
   };
 
   const handleTaskCompletion = (taskId) => {
     const filteredTasks = tasks.filter((t) => t._id === taskId);
-    if (filteredTasks) {
-      if (filteredTasks[0].status === "done") return;
-    }
-    if (filteredTasks) {
-      setCompletedTasks(completedTasks + 1);
-    }
-    const updatedTasks = tasks.map((t) => (t._id === taskId ? { ...t, status: "done" } : t));
+    if (filteredTasks.length == 0) return;
+
+    const newStatus = filteredTasks[0].status === "done" ? "todo" : "done";
 
     axios
       .put(`/task/${taskId}`, {
         title: filteredTasks[0].taskName,
         description: "hello",
         priority: filteredTasks[0].priority,
-        status: "done",
+        status: newStatus,
       })
       .then(() => {})
       .catch(() => {});
-
-    setTasks(updatedTasks);
   };
 
   useEffect(() => {
-    setTotalTasks(tasks.length);
-    const productivityRate = (completedTasks / totalTasks) * 100;
-    setProductivityRate(productivityRate);
+    const newCompletedTasks = tasks.filter((x) => x.status === "done");
+    setCompletedTasks(newCompletedTasks);
+    if (tasks.length !== 0) {
+      const productivityRate = (newCompletedTasks / tasks.length) * 100;
+      setProductivityRate(productivityRate);
+    } else {
+      setProductivityRate(0);
+    }
   }, [tasks]);
 
   useEffect(() => {
@@ -166,10 +144,10 @@ function MainPage() {
               </Box>
               <Box display="flex" gap={8} fontSize="18px">
                 <Box color={"green"}>
-                  {completedTasks}/{totalTasks} completed
+                  {completedTasks}/{tasks.length} completed
                 </Box>
                 <Box color={"red"}>
-                  {uncompletedTasks}/{totalTasks} incomplete
+                  {tasks.length - completedTasks}/{tasks.length} incomplete
                 </Box>
               </Box>
             </Box>
@@ -286,7 +264,7 @@ function MainPage() {
           )}
 
           <Box width="100%" justifyContent="space-between" alignItems="center" display="flex">
-            <Link style={{ color: "white" }} to="/leaderboard">
+            <Link style={{ display: "block", color: "white" }} to="/leaderboard">
               Go to leaderboard
             </Link>
             <Box color="white" fontWeight="bold" fontSize="30px" mb={4}>

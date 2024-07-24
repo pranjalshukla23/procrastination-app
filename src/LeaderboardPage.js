@@ -17,7 +17,7 @@ function LeaderboardPage() {
           setLeaderboard([]);
           console.error("Error fetching data:", error);
         });
-    }, 1500);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -54,7 +54,7 @@ function LeaderboardPage() {
                 key={index}
                 height={60}
                 p={1}
-                backgroundColor="#FFA533"
+                backgroundColor="#ccc"
                 borderRadius="12px"
                 display="flex"
                 flexDirection="row"
