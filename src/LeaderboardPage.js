@@ -35,7 +35,7 @@ function LeaderboardPage() {
         fontWeight="bold"
         fontSize={24}
       >
-        Leaderboard
+        Global Leaderboard
       </Box>
       <header className="App-header">
         <Box
@@ -46,7 +46,7 @@ function LeaderboardPage() {
           alignItems="flex-start"
         >
           <Box color="white" fontWeight="bold" fontSize="30px" mb={4}>
-            Leaderboard
+            Tasks Leaderboard
           </Box>
           <Box display="flex" flexDirection="column" gap={4} width="100%">
             {leaderboard.map((user, index) => (
